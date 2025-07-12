@@ -8,128 +8,147 @@
     <link rel="icon" href="images/kkfunda.jpg">
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background: #f4f7f9;
-            color: #333;
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f8f9fa;
             margin: 0;
             padding: 0;
+            color: #333;
         }
+
         header {
-            background-color: #2c3e50;
+            background-color: #007acc;
             color: white;
-            padding: 20px;
+            padding: 30px 0;
             text-align: center;
         }
-        h1, h3 {
-            margin: 10px 0;
+
+        .tabs {
+            display: flex;
+            justify-content: center;
+            background-color: #e9ecef;
+            padding: 10px 0;
         }
-        hr {
-            border: 0;
-            height: 1px;
-            background: #ccc;
+
+        .tab {
+            padding: 12px 25px;
+            cursor: pointer;
+            margin: 0 5px;
+            background-color: #dee2e6;
+            border-radius: 5px 5px 0 0;
+            font-weight: bold;
+            transition: background-color 0.3s;
         }
-        .content {
+
+        .tab:hover,
+        .tab.active {
+            background-color: #ffffff;
+            border-bottom: 2px solid #007acc;
+        }
+
+        .tab-content {
+            text-align: center;
             padding: 30px;
-            text-align: center;
+            border: 1px solid #dee2e6;
+            border-top: none;
+            background-color: #ffffff;
         }
-        .machine-select {
-            margin-top: 20px;
-        }
-        select {
-            padding: 10px;
-            font-size: 16px;
-        }
-        .machine-image {
-            margin-top: 20px;
-        }
-        .footer {
-            background: #2c3e50;
-            color: white;
-            text-align: center;
-            padding: 10px;
-            margin-top: 40px;
-        }
-        img.machine {
-            width: 200px;
+
+        .machine-img {
+            width: 250px;
             height: auto;
-            margin-top: 10px;
+            margin-top: 20px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        .info {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #007acc;
+            color: white;
         }
     </style>
-    <script>
-        function showMachineImage() {
-            var selected = document.getElementById("machineType").value;
-            var img = document.getElementById("machineImg");
 
-            switch (selected) {
-                case "Shiela":
-                    img.src = "images/shiela.jpg";
-                    break;
-                case "Vidya":
-                    img.src = "images/vidya.jpg";
-                    break;
-                case "Everest":
-                    img.src = "images/everest.jpg";
-                    break;
-                case "Jack":
-                    img.src = "images/jack.jpg";
-                    break;
-                default:
-                    img.src = "";
+    <script>
+        function showTab(tabName) {
+            var tabs = document.getElementsByClassName("tab");
+            for (var i = 0; i < tabs.length; i++) {
+                tabs[i].classList.remove("active");
             }
+
+            var contents = document.getElementsByClassName("tab-content");
+            for (var i = 0; i < contents.length; i++) {
+                contents[i].style.display = "none";
+            }
+
+            document.getElementById(tabName).style.display = "block";
+            document.getElementById("tab-" + tabName).classList.add("active");
         }
+
+        window.onload = function () {
+            showTab("Shiela");
+        };
     </script>
 </head>
+
 <body>
 
 <header>
     <h1>Welcome to Harideep Tailors</h1>
 </header>
 
-<div class="content">
-    <h3>Server Side IP Address</h3>
+<!-- Tabs -->
+<div class="tabs">
+    <div class="tab" id="tab-Shiela" onclick="showTab('Shiela')">Shiela</div>
+    <div class="tab" id="tab-Vidya" onclick="showTab('Vidya')">Vidya</div>
+    <div class="tab" id="tab-Everest" onclick="showTab('Everest')">Everest</div>
+    <div class="tab" id="tab-Jack" onclick="showTab('Jack')">Jack</div>
+</div>
+
+<!-- Tab Content -->
+<div id="Shiela" class="tab-content">
+    <h2>Shiela Machine</h2>
+    <img src="images/shiela.jpg" alt="Shiela" class="machine-img">
+</div>
+
+<div id="Vidya" class="tab-content" style="display:none">
+    <h2>Vidya Machine</h2>
+    <img src="images/vidya.jpg" alt="Vidya" class="machine-img">
+</div>
+
+<div id="Everest" class="tab-content" style="display:none">
+    <h2>Everest Machine</h2>
+    <img src="images/everest.jpg" alt="Everest" class="machine-img">
+</div>
+
+<div id="Jack" class="tab-content" style="display:none">
+    <h2>Jack Machine</h2>
+    <img src="images/jack.jpg" alt="Jack" class="machine-img">
+</div>
+
+<!-- Server & Client Info -->
+<div class="info">
+    <h3>Server & Client Info</h3>
     <%
         InetAddress inetAddress = InetAddress.getLocalHost();
         String ip = inetAddress.getHostAddress();
         out.println("Server Host Name: " + inetAddress.getHostName() + "<br>");
-        out.println("Server IP Address: " + ip);
-    %>
-
-    <h3>Client Side IP Address</h3>
-    <%
+        out.println("Server IP Address: " + ip + "<br>");
         out.println("Client IP Address: " + request.getRemoteAddr() + "<br>");
-        out.println("Client Name Host: " + request.getRemoteHost());
+        out.println("Client Host Name: " + request.getRemoteHost());
     %>
-
-    <div style="margin-top: 30px;">
-        <img src="images/kkfunda.jpg" alt="Logo" width="100">
-        <p><strong>Harideep Tailors,<br>Thirumalagiri, Suryapet<br>+91-123456789<br>
-        <a href="mailto:Tailors@gmail.com">Tailors@gmail.com</a></strong></p>
-    </div>
-
-    <div class="machine-select">
-        <h3>Select Machine Type</h3>
-        <select id="machineType" onchange="showMachineImage()">
-            <option value="">-- Choose a Machine --</option>
-            <option value="Shiela">Shiela</option>
-            <option value="Vidya">Vidya</option>
-            <option value="Everest">Everest</option>
-            <option value="Jack">Jack</option>
-        </select>
-
-        <div class="machine-image">
-            <img id="machineImg" class="machine" src="" alt="Machine Image">
-        </div>
-    </div>
-
-    <hr>
-    <h3>Service</h3>
-    <p><a href="services/employee/getEmployeeDetails">Get Employee Details</a></p>
+    <p style="margin-top: 20px;"><a href="services/employee/getEmployeeDetails">➤ Get Employee Details</a></p>
 </div>
 
-<div class="footer">
+<!-- Footer -->
+<footer>
     <p>Harideep Tailors, Sewing Machine Sales and Service.</p>
-    <small>© 2025 <a href="https://google.com/" style="color: #ecf0f1;">Harideep Tailors</a></small>
-</div>
+    <small>&copy; 2025 Harideep Tailors | <a href="mailto:Tailors@gmail.com" style="color: #fff;">Contact Us</a></small>
+</footer>
 
 </body>
 </html>
