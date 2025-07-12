@@ -1,107 +1,155 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.net.*" %>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Harideep Tailors Home Page</title>
+    <title>Harideep Tailors</title>
     <link rel="icon" href="images/kkfunda.jpg">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+
     <style>
         body {
-            font-family: 'Segoe UI', sans-serif;
-            background-color: #f8f9fa;
             margin: 0;
-            padding: 0;
-            color: #333;
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(to bottom right, #d4fc79, #96e6a1);
+            color: #222;
+        }
+
+        /* Scrolling header */
+        .marquee {
+            background: #007bff;
+            color: white;
+            padding: 10px 0;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .marquee marquee {
+            font-size: 24px;
         }
 
         header {
-            background-color: #007acc;
-            color: white;
-            padding: 30px 0;
             text-align: center;
+            padding: 30px;
+            background: #ffffffcc;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
 
         .tabs {
             display: flex;
             justify-content: center;
-            background-color: #e9ecef;
-            padding: 10px 0;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 20px;
         }
 
         .tab {
-            padding: 12px 25px;
+            background: #ffffff;
+            padding: 12px 24px;
+            border-radius: 8px;
             cursor: pointer;
-            margin: 0 5px;
-            background-color: #dee2e6;
-            border-radius: 5px 5px 0 0;
-            font-weight: bold;
-            transition: background-color 0.3s;
+            font-weight: 600;
+            border: 2px solid #007bff;
+            transition: 0.3s;
         }
 
-        .tab:hover,
-        .tab.active {
-            background-color: #ffffff;
-            border-bottom: 2px solid #007acc;
+        .tab:hover, .tab.active {
+            background-color: #007bff;
+            color: white;
         }
 
         .tab-content {
+            display: none;
             text-align: center;
-            padding: 30px;
-            border: 1px solid #dee2e6;
-            border-top: none;
-            background-color: #ffffff;
+            background: #fff;
+            margin: 30px auto;
+            padding: 25px;
+            width: 80%;
+            max-width: 600px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         }
 
-        .machine-img {
-            width: 250px;
+        .tab-content.active {
+            display: block;
+        }
+
+        .tab-content img {
+            max-width: 250px;
             height: auto;
-            margin-top: 20px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-radius: 10px;
+            margin-top: 15px;
         }
 
-        .info {
-            text-align: center;
-            margin-top: 30px;
+        .info-section {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 25px;
+            margin: 40px auto;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            border-left: 6px solid #28a745;
+            border-radius: 8px;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.1);
+            width: 280px;
         }
 
         footer {
             text-align: center;
-            padding: 20px;
-            background-color: #007acc;
+            background: #007bff;
             color: white;
+            padding: 20px 10px;
+            margin-top: 40px;
+        }
+
+        footer a {
+            color: white;
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .tab-content, .card {
+                width: 90%;
+            }
         }
     </style>
 
     <script>
-        function showTab(tabName) {
-            var tabs = document.getElementsByClassName("tab");
-            for (var i = 0; i < tabs.length; i++) {
-                tabs[i].classList.remove("active");
-            }
+        function showTab(machine) {
+            const contents = document.querySelectorAll('.tab-content');
+            const tabs = document.querySelectorAll('.tab');
 
-            var contents = document.getElementsByClassName("tab-content");
-            for (var i = 0; i < contents.length; i++) {
-                contents[i].style.display = "none";
-            }
+            contents.forEach(c => c.classList.remove('active'));
+            tabs.forEach(t => t.classList.remove('active'));
 
-            document.getElementById(tabName).style.display = "block";
-            document.getElementById("tab-" + tabName).classList.add("active");
+            document.getElementById(machine).classList.add('active');
+            document.getElementById("tab-" + machine).classList.add('active');
         }
 
-        window.onload = function () {
-            showTab("Shiela");
+        window.onload = () => {
+            showTab('Shiela');
         };
     </script>
 </head>
-
 <body>
+
+<!-- Scrolling shop name -->
+<div class="marquee">
+    <marquee behavior="scroll" direction="left" scrollamount="6">Welcome to Harideep Tailors – High Quality Sewing Machines and Repair Services</marquee>
+</div>
 
 <header>
     <h1>Welcome to Harideep Tailors</h1>
+    <p>Your trusted sewing machine partner since 1985</p>
 </header>
 
-<!-- Tabs -->
+<!-- Machine Type Tabs -->
 <div class="tabs">
     <div class="tab" id="tab-Shiela" onclick="showTab('Shiela')">Shiela</div>
     <div class="tab" id="tab-Vidya" onclick="showTab('Vidya')">Vidya</div>
@@ -109,45 +157,55 @@
     <div class="tab" id="tab-Jack" onclick="showTab('Jack')">Jack</div>
 </div>
 
-<!-- Tab Content -->
+<!-- Machine Tab Content -->
 <div id="Shiela" class="tab-content">
     <h2>Shiela Machine</h2>
-    <img src="images/shiela.jpg" alt="Shiela" class="machine-img">
+    <img src="images/shiela.jpg" alt="Shiela Machine">
 </div>
 
-<div id="Vidya" class="tab-content" style="display:none">
+<div id="Vidya" class="tab-content">
     <h2>Vidya Machine</h2>
-    <img src="images/vidya.jpg" alt="Vidya" class="machine-img">
+    <img src="images/vidya.jpg" alt="Vidya Machine">
 </div>
 
-<div id="Everest" class="tab-content" style="display:none">
+<div id="Everest" class="tab-content">
     <h2>Everest Machine</h2>
-    <img src="images/everest.jpg" alt="Everest" class="machine-img">
+    <img src="images/everest.jpg" alt="Everest Machine">
 </div>
 
-<div id="Jack" class="tab-content" style="display:none">
+<div id="Jack" class="tab-content">
     <h2>Jack Machine</h2>
-    <img src="images/jack.jpg" alt="Jack" class="machine-img">
+    <img src="images/jack.jpg" alt="Jack Machine">
 </div>
 
-<!-- Server & Client Info -->
-<div class="info">
-    <h3>Server & Client Info</h3>
-    <%
-        InetAddress inetAddress = InetAddress.getLocalHost();
-        String ip = inetAddress.getHostAddress();
-        out.println("Server Host Name: " + inetAddress.getHostName() + "<br>");
-        out.println("Server IP Address: " + ip + "<br>");
-        out.println("Client IP Address: " + request.getRemoteAddr() + "<br>");
-        out.println("Client Host Name: " + request.getRemoteHost());
-    %>
-    <p style="margin-top: 20px;"><a href="services/employee/getEmployeeDetails">➤ Get Employee Details</a></p>
+<!-- Info Cards -->
+<div class="info-section">
+    <div class="card">
+        <h3>Server Info</h3>
+        <%
+            InetAddress inetAddress = InetAddress.getLocalHost();
+            out.println("Host: " + inetAddress.getHostName() + "<br>");
+            out.println("IP: " + inetAddress.getHostAddress());
+        %>
+    </div>
+
+    <div class="card">
+        <h3>Client Info</h3>
+        <%
+            out.println("Client IP: " + request.getRemoteAddr() + "<br>");
+            out.println("Client Host: " + request.getRemoteHost());
+        %>
+    </div>
+
+    <div class="card">
+        <h3>Employee Service</h3>
+        <a href="services/employee/getEmployeeDetails">Get Employee Details</a>
+    </div>
 </div>
 
 <!-- Footer -->
 <footer>
-    <p>Harideep Tailors, Sewing Machine Sales and Service.</p>
-    <small>&copy; 2025 Harideep Tailors | <a href="mailto:Tailors@gmail.com" style="color: #fff;">Contact Us</a></small>
+    <p>© 2025 Harideep Tailors | Email: <a href="mailto:Tailors@gmail.com">Tailors@gmail.com</a></p>
 </footer>
 
 </body>
