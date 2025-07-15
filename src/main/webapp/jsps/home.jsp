@@ -155,6 +155,7 @@
     <div class="tab" id="tab-Vidya" onclick="showTab('Vidya')">Vidya</div>
     <div class="tab" id="tab-Everest" onclick="showTab('Everest')">Everest</div>
     <div class="tab" id="tab-Jack" onclick="showTab('Jack')">Jack</div>
+     <div class="tab" id="tab-Zig-Zag" onclick="showTab('Zig-Zag')">Zig-Zag</div>
 </div>
 
 <!-- Machine Tab Content -->
