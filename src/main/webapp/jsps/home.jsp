@@ -146,7 +146,7 @@
 
 <header>
     <h1>Welcome to Harideep Tailors</h1>
-    <p>Your trusted sewing machine partner since 1990</p>
+    <p>Your trusted sewing machine partner since 1993</p>
 </header>
 
 <!-- Machine Type Tabs -->
