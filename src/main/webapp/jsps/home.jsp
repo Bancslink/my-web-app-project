@@ -161,22 +161,22 @@
 <!-- Machine Tab Content -->
 <div id="Shiela" class="tab-content">
     <h2>Shiela Machine</h2>
-    <img src="images/shiela.jpg" alt="Shiela Machine">
+    <img src="images/shiela.png" alt="Shiela Machine">
 </div>
 
 <div id="Vidya" class="tab-content">
     <h2>Vidya Machine</h2>
-    <img src="images/vidya.jpg" alt="Vidya Machine">
+    <img src="images/Vidya.jpg" alt="Vidya Machine">
 </div>
 
 <div id="Everest" class="tab-content">
     <h2>shiela 95 T 10 Machine</h2>
-    <img src="images/shiela95T10.jpg" alt="shiela 95 T 10">
+    <img src="images/shiela95T10.jpeg" alt="shiela 95 T 10">
 </div>
 
 <div id="Jack" class="tab-content">
     <h2>Jack Machine</h2>
-    <img src="images/jack.jpg" alt="Jack Machine">
+    <img src="images/Jack.jpg" alt="Jack Machine">
 </div>
 
 <!-- Info Cards -->
