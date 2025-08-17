@@ -153,7 +153,7 @@
 <div class="tabs">
     <div class="tab" id="tab-Shiela" onclick="showTab('Shiela')">Shiela</div>
     <div class="tab" id="tab-Vidya" onclick="showTab('Vidya')">Vidya</div>
-    <div class="tab" id="tab-Everest" onclick="showTab('Everest')">Everest</div>
+    <div class="tab" id="tab-Everest" onclick="showTab('Everest')">shiela 95 T 10</div>
     <div class="tab" id="tab-Jack" onclick="showTab('Jack')">Jack</div>
      <div class="tab" id="tab-Zig-Zag" onclick="showTab('Zig-Zag')">Zig-Zag</div>
 </div>
@@ -170,8 +170,8 @@
 </div>
 
 <div id="Everest" class="tab-content">
-    <h2>Everest Machine</h2>
-    <img src="images/everest.jpg" alt="Everest Machine">
+    <h2>shiela 95 T 10 Machine</h2>
+    <img src="images/shiela95T10.jpg" alt="shiela 95 T 10">
 </div>
 
 <div id="Jack" class="tab-content">
