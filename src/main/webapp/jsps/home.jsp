@@ -8,7 +8,7 @@
     <link rel="icon" href="images/kkfunda.jpg">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- Fonts   -->
+    <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
 
     <style>
@@ -24,15 +24,13 @@
             --glass: rgba(255,255,255,0.7);
         }
 
-        /* Dark mode support */
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --bg-1: #0f1720;
-                --bg-2: #071019;
-                --card-bg: rgba(255,255,255,0.04);
-                --muted: #cbd5e1;
-            }
-            body { color: var(--muted); }
+        /* Dark mode base variables (will be toggled by .dark on <html>) */
+        html.dark {
+            --bg-1: #071019;
+            --bg-2: #0f1720;
+            --card-bg: rgba(255,255,255,0.03);
+            --muted: #cbd5e1;
+            color-scheme: dark;
         }
 
         html,body{
@@ -46,26 +44,34 @@
                         linear-gradient(180deg, var(--bg-1), var(--bg-2));
             color: #0b1320;
             line-height:1.45;
+            transition: background 300ms ease, color 200ms ease;
         }
+
+        html.dark body { color: var(--muted); }
 
         /* header area */
         header{
             text-align:center;
-            padding:36px 18px;
+            padding:24px 18px;
             backdrop-filter: blur(6px);
             margin: 20px auto 0;
             width: min(1100px, 95%);
-            border-radius: 18px;
-            background: linear-gradient(180deg, rgba(255,255,255,0.7), rgba(255,255,255,0.55));
-            box-shadow: 0 10px 30px rgba(12,24,40,0.08);
-            border: 1px solid rgba(255,255,255,0.6);
+            border-radius: 14px;
+            background: linear-gradient(180deg, rgba(255,255,255,0.85), rgba(255,255,255,0.6));
+            box-shadow: 0 10px 30px rgba(12,24,40,0.06);
+            border: 1px solid rgba(11,19,32,0.04);
+        }
+
+        html.dark header{
+            background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+            border: 1px solid rgba(255,255,255,0.04);
         }
 
         header h1{
             margin:0;
             font-weight:800;
             letter-spacing: -0.6px;
-            font-size: clamp(22px, 3.2vw, 34px);
+            font-size: clamp(20px, 3.2vw, 32px);
             color: #0b1320;
             display:flex;
             justify-content:center;
@@ -73,334 +79,301 @@
             align-items:center;
         }
 
+        html.dark header h1 { color: #e6eef0; }
+
         header p { margin:8px 0 0; color:var(--muted); font-weight:500; }
 
-        /* animated banner */
-        .banner {
-            width:100%;
-            overflow:hidden;
-            margin: 18px 0 0;
-            display:flex;
-            justify-content:center;
-        }
-        .banner .ticker {
-            display:inline-flex;
-            gap:28px;
-            align-items:center;
-            padding:10px 18px;
-            border-radius: 999px;
-            background: linear-gradient(90deg, rgba(123,97,255,0.12), rgba(43,138,126,0.08));
-            animation: slide-left 18s linear infinite;
-            white-space:nowrap;
-        }
-        @keyframes slide-left {
-            0% { transform: translateX(0%); }
-            100% { transform: translateX(-50%); }
-        }
-        .ticker span {
-            font-weight:700;
-            color:#07323f;
-            font-size:16px;
-        }
+        /* top controls */
+        .top-controls{ display:flex; gap:12px; justify-content:flex-end; align-items:center; margin-top:12px; }
+        .top-controls .toggle { display:flex; gap:8px; align-items:center; }
+        .switch { width:48px; height:28px; border-radius:999px; background:rgba(11,19,32,0.06); position:relative; cursor:pointer; border:1px solid rgba(11,19,32,0.04); }
+        html.dark .switch { background: rgba(255,255,255,0.06); }
+        .switch .knob { position:absolute; top:3px; left:3px; width:22px; height:22px; border-radius:50%; background:white; transition: transform 180ms; box-shadow:0 2px 8px rgba(11,19,32,0.12); }
+        html.dark .switch .knob { background:#0b1320; }
+        .switch.on { background: linear-gradient(90deg,var(--accent-3), var(--accent-1)); }
+        .switch.on .knob { transform: translateX(20px); }
 
         /* main layout */
         .container{
             width: min(1100px, 96%);
-            margin: 26px auto;
+            margin: 18px auto;
             display:grid;
             grid-template-columns: 1fr 360px;
-            gap: 24px;
+            gap: 20px;
         }
 
-        /* tabs area */
-        .tabs-card{
-            background: var(--card-bg);
-            border-radius: var(--radius);
-            padding:18px;
-            box-shadow: 0 8px 24px rgba(11,19,32,0.06);
-            border: 1px solid rgba(11,19,32,0.04);
+        /* left: cards grid */
+        .cards-wrap{
+            display:grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap:18px;
         }
 
-        .tabs {
-            display:flex;
-            gap:10px;
-            flex-wrap:wrap;
-            margin-bottom:16px;
-        }
-
-        .tab-btn {
-            appearance:none;
-            border: none;
-            padding:10px 14px;
-            border-radius: 12px;
-            background: transparent;
-            cursor:pointer;
-            font-weight:600;
-            color: #0b1320;
-            border: 1px solid rgba(11,19,32,0.06);
-            transition: all 180ms;
-            box-shadow: none;
-        }
-        .tab-btn:focus { outline: 3px solid rgba(123,97,255,0.18); }
-        .tab-btn[aria-selected="true"]{
-            background: linear-gradient(90deg,var(--accent-3), var(--accent-1));
-            color: white;
-            box-shadow: 0 8px 20px rgba(43,138,126,0.12);
-            transform: translateY(-2px);
-            border: none;
-        }
-
-        /* content panels */
-        .panel {
-            padding:20px;
-            border-radius: 12px;
-            background: linear-gradient(180deg, rgba(255,255,255,0.85), rgba(255,255,255,0.7));
-            border: 1px solid rgba(11,19,32,0.04);
-            min-height: 260px;
-            display:flex;
-            gap:20px;
-            align-items:center;
-            justify-content:flex-start;
-        }
-
-        .panel .info {
-            flex:1;
-        }
-        .panel h2 { margin:0 0 6px; font-size:20px; }
-        .panel p { margin:0; color:var(--muted); font-weight:500; }
-
-        .panel img {
-            width:220px;
-            height: auto;
+        .machine-card{
+            padding:16px;
             border-radius:12px;
-            object-fit:cover;
-            box-shadow: 0 10px 30px rgba(11,19,32,0.08);
-            border: 6px solid rgba(255,255,255,0.55);
+            background: var(--card-bg);
+            border: 1px solid rgba(11,19,32,0.04);
+            box-shadow: 0 8px 20px rgba(11,19,32,0.04);
+            display:flex;
+            gap:12px;
+            align-items:center;
+            cursor:pointer;
+            transition: transform 180ms, box-shadow 180ms;
         }
+        .machine-card:hover{ transform: translateY(-6px); box-shadow:0 18px 40px rgba(11,19,32,0.07); }
+
+        .thumb{ width:96px; height:96px; border-radius:10px; object-fit:cover; flex-shrink:0; }
+        .meta{ flex:1; }
+        .meta h3{ margin:0 0 6px; font-size:16px; }
+        .meta p{ margin:0; color:var(--muted); font-weight:600; }
+
+        .price { font-weight:800; margin-left:8px; color:var(--accent-1); }
 
         /* right column cards */
-        .info-column {
-            display:flex;
-            flex-direction:column;
-            gap:16px;
-        }
+        .info-column { display:flex; flex-direction:column; gap:12px; }
+        .card { padding:14px; border-radius:12px; background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(255,255,255,0.85)); border:1px solid rgba(11,19,32,0.04); box-shadow:0 8px 20px rgba(11,19,32,0.05); }
+        html.dark .card { background: rgba(255,255,255,0.02); }
+        .card h3{ margin:0 0 8px; font-size:16px; }
+        .card p{ margin:0; color:var(--muted); font-weight:600; }
+        .btn { display:inline-block; margin-top:10px; padding:10px 12px; border-radius:10px; background: linear-gradient(90deg,var(--accent-1),var(--accent-3)); color:white; text-decoration:none; font-weight:700; }
 
-        .card {
-            padding:16px;
-            border-radius:12px;
-            background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(255,255,255,0.85));
-            border: 1px solid rgba(11,19,32,0.04);
-            box-shadow: 0 8px 20px rgba(11,19,32,0.05);
-        }
-
-        .card h3 { margin:0 0 8px; font-size:16px; color:#0b1320; }
-        .card p { margin:0; color:var(--muted); font-weight:600; }
-
-        .server-info strong { color: var(--accent-1); }
-        .client-info strong { color: var(--accent-2); }
-
-        .btn-link {
-            display:inline-block;
-            margin-top:10px;
-            padding:10px 14px;
-            border-radius:10px;
-            background: linear-gradient(90deg,var(--accent-1),var(--accent-3));
-            color:white;
-            text-decoration:none;
-            font-weight:700;
-        }
+        /* modal */
+        .modal-backdrop{ position:fixed; inset:0; background:rgba(2,6,23,0.5); display:none; align-items:center; justify-content:center; z-index:1200; }
+        .modal{ width: min(760px, 96%); max-width:760px; background:var(--card-bg); border-radius:12px; padding:18px; box-shadow:0 30px 60px rgba(11,19,32,0.4); border:1px solid rgba(11,19,32,0.06); display:flex; gap:18px; }
+        .modal .left{ flex:1; }
+        .modal .right{ width:260px; }
+        .modal img{ width:100%; height:auto; border-radius:8px; display:block; }
+        .close-btn{ background:transparent; border:none; font-size:20px; cursor:pointer; color:var(--muted); }
 
         /* footer */
-        footer{
-            width:min(1100px,95%);
-            margin: 28px auto 40px;
-            text-align:center;
-            padding:16px;
-            border-radius:12px;
-            background: linear-gradient(90deg, rgba(43,138,126,0.08), rgba(123,97,255,0.06));
-            color: #06323a;
-            font-weight:600;
-        }
-        footer a { color: inherit; text-decoration:underline; }
+        footer{ width:min(1100px,95%); margin: 18px auto 36px; text-align:center; padding:12px; border-radius:10px; background: linear-gradient(90deg, rgba(43,138,126,0.08), rgba(123,97,255,0.06)); color: #06323a; font-weight:600; }
+        footer a{ color:inherit; text-decoration:underline; }
 
         /* responsive */
-        @media (max-width: 980px) {
-            .container { grid-template-columns: 1fr; }
-            .panel { flex-direction:column; align-items:center; text-align:center; }
-            .panel img { width:70%; max-width:340px; }
-        }
-
-        @media (max-width:480px){
-            header { padding:22px 12px; border-radius:12px; }
-            .ticker { font-size:14px; gap:14px; }
-        }
+        @media (max-width:980px){ .container{ grid-template-columns: 1fr; } }
+        @media (max-width:600px){ .modal{ flex-direction:column; } .modal .right{ width:100%; } }
     </style>
-
-    <script>
-        // Tab switching with accessible attributes
-        document.addEventListener('DOMContentLoaded', function(){
-            const tabs = ['Shiela','Vidya','Everest','Jack','Zig-Zag'];
-            // build tab list (in case you want to keep html minimal)
-            // set default selected
-            let selected = 'Shiela';
-
-            function show(tabId){
-                selected = tabId;
-                // panels
-                document.querySelectorAll('.panel').forEach(p => p.hidden = (p.id !== tabId));
-                // buttons
-                document.querySelectorAll('.tab-btn').forEach(b => {
-                    b.setAttribute('aria-selected', b.dataset.target === selected ? 'true' : 'false');
-                });
-            }
-
-            // attach click handlers
-            document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    show(btn.dataset.target);
-                });
-                btn.addEventListener('keydown', (e) => {
-                    // Enter or Space
-                    if(e.key === 'Enter' || e.key === ' ') {
-                        e.preventDefault();
-                        btn.click();
-                    }
-                });
-            });
-
-            show(selected);
-        });
-    </script>
 </head>
 <body>
 
-    <header>
-        <h1>
-            <img src="images/kkfunda.jpg" alt="Harideep logo" style="height:38px;border-radius:8px;object-fit:cover;">
-            Harideep Tailors
-        </h1>
-        <p>Your trusted sewing machine partner since 1993 — Quality, Repair & Service</p>
-
-        <!-- Animated, accessible banner -->
-        <div class="banner" aria-hidden="true">
-            <div class="ticker" role="presentation" aria-hidden="true">
-                <span>Welcome to Harideep Tailors — High-quality sewing machines & repairs</span>
-                <span>Free diagnostics on repairs over ₹500</span>
-                <span>Experienced technicians since 1993</span>
-                <span>Contact: Tailors@gmail.com</span>
-                <!-- duplicate content helps the continuous sliding effect -->
-                <span>Welcome to Harideep Tailors — High-quality sewing machines & repairs</span>
-                <span>Free diagnostics on repairs over ₹500</span>
+<header>
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;">
+        <div style="display:flex;align-items:center;gap:12px;">
+            <img src="images/kkfunda.jpg" alt="logo" style="height:44px;border-radius:10px;object-fit:cover;">
+            <div style="text-align:left;">
+                <h1 style="font-size:18px; margin:0;">Harideep Tailors</h1>
+                <div style="font-size:13px;color:var(--muted);">Trusted sewing partner since 1993</div>
             </div>
         </div>
-    </header>
 
-    <main class="container" role="main">
-
-        <!-- left: tabs and panels -->
-        <section class="tabs-card" aria-label="Sewing machine models">
-            <div class="tabs" role="tablist" aria-label="Machine types">
-                <button class="tab-btn" role="tab" data-target="Shiela" aria-selected="false" id="tab-Shiela">Shiela</button>
-                <button class="tab-btn" role="tab" data-target="Vidya" aria-selected="false" id="tab-Vidya">Vidya</button>
-                <button class="tab-btn" role="tab" data-target="Everest" aria-selected="false" id="tab-Everest">Shiela 95 T 10</button>
-                <button class="tab-btn" role="tab" data-target="Jack" aria-selected="false" id="tab-Jack">Jack</button>
-                <button class="tab-btn" role="tab" data-target="Zig-Zag" aria-selected="false" id="tab-Zig-Zag">Zig-Zag</button>
-            </div>
-
-            <!-- panels -->
-            <div id="Shiela" class="panel" role="tabpanel" aria-labelledby="tab-Shiela">
-                <div class="info">
-                    <h2>Shiela Machine</h2>
-                    <p>Reliable, compact domestic machine ideal for daily tailoring and small projects. Smooth stitching and low maintenance.</p>
+        <div class="top-controls">
+            <div class="toggle" title="Toggle dark theme" aria-hidden="false">
+                <label for="themeSwitch" style="font-weight:700;color:var(--muted);font-size:13px;margin-right:8px;">Theme</label>
+                <div id="themeSwitch" class="switch" role="switch" aria-checked="false" tabindex="0">
+                    <div class="knob"></div>
                 </div>
-                <img src="images/shiela.png" alt="Shiela sewing machine image">
             </div>
+        </div>
+    </div>
 
-            <div id="Vidya" class="panel" role="tabpanel" aria-labelledby="tab-Vidya" hidden>
-                <div class="info">
-                    <h2>Vidya Machine</h2>
-                    <p>Robust and lightweight, with adjustable tension and comfortable handling for precision work.</p>
+    <p style="margin-top:10px;">High-quality sewing machines, repairs & service — Free diagnostics on repairs over ₹500</p>
+</header>
+
+<main class="container" role="main">
+
+    <!-- left: product cards grid -->
+    <section>
+        <div style="margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;">
+            <h2 style="margin:0;font-size:18px;">Our Machines</h2>
+            <div style="color:var(--muted);font-weight:600;font-size:13px;">Click a card for details & booking</div>
+        </div>
+
+        <div class="cards-wrap" role="list">
+            <!-- Card: Shiela -->
+            <div class="machine-card" role="listitem" tabindex="0" data-id="Shiela" data-name="Shiela Machine" data-price="₹4,499" data-desc="Reliable, compact domestic machine ideal for daily tailoring and small projects. Smooth stitching and low maintenance." data-img="images/shiela.png">
+                <img class="thumb" src="images/shiela.png" alt="Shiela">
+                <div class="meta">
+                    <h3>Shiela</h3>
+                    <p>Domestic, low-maintenance</p>
                 </div>
-                <img src="images/Vidya.jpg" alt="Vidya sewing machine image">
+                <div style="font-weight:800;color:var(--accent-1);">₹4,499</div>
             </div>
 
-            <div id="Everest" class="panel" role="tabpanel" aria-labelledby="tab-Everest" hidden>
-                <div class="info">
-                    <h2>Shiela 95 T 10</h2>
-                    <p>Industrial-style performance in a compact body — excellent for medium workload tailoring and consistent stitches.</p>
-                </div>
-                <img src="images/shiela95T10.jpeg" alt="shiela 95 T 10 sewing machine image">
+            <!-- Card: Vidya -->
+            <div class="machine-card" role="listitem" tabindex="0" data-id="Vidya" data-name="Vidya Machine" data-price="₹5,200" data-desc="Robust and lightweight, with adjustable tension and comfortable handling for precision work." data-img="images/Vidya.jpg">
+                <img class="thumb" src="images/Vidya.jpg" alt="Vidya">
+                <div class="meta"><h3>Vidya</h3><p>Adjustable tension</p></div>
+                <div class="price">₹5,200</div>
             </div>
 
-            <div id="Jack" class="panel" role="tabpanel" aria-labelledby="tab-Jack" hidden>
-                <div class="info">
-                    <h2>Jack Machine</h2>
-                    <p>High speed and durable. Designed for heavier fabrics with reinforced mechanisms for long life.</p>
-                </div>
-                <img src="images/Jack.jpg" alt="Jack sewing machine image">
+            <!-- Card: Shiela 95 T 10 -->
+            <div class="machine-card" role="listitem" tabindex="0" data-id="Everest" data-name="Shiela 95 T 10" data-price="₹12,900" data-desc="Industrial-style performance in a compact body — excellent for medium workload tailoring and consistent stitches." data-img="images/shiela95T10.jpeg">
+                <img class="thumb" src="images/shiela95T10.jpeg" alt="Shiela 95 T 10">
+                <div class="meta"><h3>Shiela 95 T 10</h3><p>Industrial performance</p></div>
+                <div class="price">₹12,900</div>
             </div>
 
-            <div id="Zig-Zag" class="panel" role="tabpanel" aria-labelledby="tab-Zig-Zag" hidden>
-                <div class="info">
-                    <h2>Zig-Zag Machine</h2>
-                    <p>Perfect for decorative stitching and stretch fabrics. Flexible stitch options and easy controls.</p>
-                </div>
-                <img src="images/zigzag.jpg" alt="Zig-Zag sewing machine image">
+            <!-- Card: Jack -->
+            <div class="machine-card" role="listitem" tabindex="0" data-id="Jack" data-name="Jack Machine" data-price="₹9,499" data-desc="High speed and durable. Designed for heavier fabrics with reinforced mechanisms for long life." data-img="images/Jack.jpg">
+                <img class="thumb" src="images/Jack.jpg" alt="Jack">
+                <div class="meta"><h3>Jack</h3><p>For heavy fabrics</p></div>
+                <div class="price">₹9,499</div>
             </div>
 
-        </section>
+            <!-- Card: Zig-Zag -->
+            <div class="machine-card" role="listitem" tabindex="0" data-id="Zig-Zag" data-name="Zig-Zag Machine" data-price="₹6,750" data-desc="Perfect for decorative stitching and stretch fabrics. Flexible stitch options and easy controls." data-img="images/zigzag.jpg">
+                <img class="thumb" src="images/zigzag.jpg" alt="Zig-Zag">
+                <div class="meta"><h3>Zig-Zag</h3><p>Decorative & flexible</p></div>
+                <div class="price">₹6,750</div>
+            </div>
+        </div>
+    </section>
 
-        <!-- right column: info cards -->
-        <aside class="info-column" aria-label="Information and contact">
-            <div class="card server-info" role="region" aria-labelledby="serverTitle">
-                <h3 id="serverTitle">Server Info</h3>
-                <%
-                    InetAddress inetAddress = InetAddress.getLocalHost();
-                    out.println("<p><strong>Host:</strong> " + inetAddress.getHostName() + "</p>");
-                    out.println("<p><strong>IP:</strong> " + inetAddress.getHostAddress() + "</p>");
-                %>
+    <!-- right column: info and quick actions -->
+    <aside class="info-column" aria-label="Information and contact">
+        <div class="card server-info" role="region" aria-labelledby="serverTitle">
+            <h3 id="serverTitle">Server Info</h3>
+            <%
+                InetAddress inetAddress = InetAddress.getLocalHost();
+                out.println("<p><strong>Host:</strong> " + inetAddress.getHostName() + "</p>");
+                out.println("<p><strong>IP:</strong> " + inetAddress.getHostAddress() + "</p>");
+            %>
+        </div>
+
+        <div class="card client-info" role="region" aria-labelledby="clientTitle">
+            <h3 id="clientTitle">Client Info</h3>
+            <%
+                out.println("<p><strong>Client IP:</strong> " + request.getRemoteAddr() + "</p>");
+                out.println("<p><strong>Client Host:</strong> " + request.getRemoteHost() + "</p>");
+            %>
+        </div>
+
+        <div class="card" role="region" aria-labelledby="serviceTitle">
+            <h3 id="serviceTitle">Employee Service</h3>
+            <p>Quick access to employee records and services.</p>
+            <a class="btn" href="services/employee/getEmployeeDetails">Get Employee Details</a>
+        </div>
+
+        <div class="card">
+            <h3>Contact & Support</h3>
+            <p style="margin-top:6px;">Email: <a href="mailto:Tailors@gmail.com">Tailors@gmail.com</a></p>
+            <p style="margin-top:6px;color:var(--muted);font-weight:600;">Phone: +91-XXXXXXXXXX</p>
+        </div>
+    </aside>
+
+</main>
+
+<footer>
+    <p>© <strong>Harideep Tailors</strong> — 1993 to <span id="year"></span> | Email: <a href="mailto:Tailors@gmail.com">Tailors@gmail.com</a></p>
+</footer>
+
+<!-- Modal markup -->
+<div id="modalBackdrop" class="modal-backdrop" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+        <div style="display:flex;flex-direction:column;gap:12px;flex:1;">
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+                <h2 id="modalTitle" style="margin:0;font-size:20px;">Title</h2>
+                <button class="close-btn" id="closeModal" aria-label="Close modal">✕</button>
+            </div>
+            <p id="modalDesc" style="margin:0;color:var(--muted);font-weight:600;">Description</p>
+
+            <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:6px;">
+                <div style="font-size:14px;font-weight:800;color:var(--accent-1);" id="modalPrice">₹0</div>
+                <a id="bookNow" class="btn" href="#">Book Service</a>
             </div>
 
-            <div class="card client-info" role="region" aria-labelledby="clientTitle">
-                <h3 id="clientTitle">Client Info</h3>
-                <%
-                    out.println("<p><strong>Client IP:</strong> " + request.getRemoteAddr() + "</p>");
-                    out.println("<p><strong>Client Host:</strong> " + request.getRemoteHost() + "</p>");
-                %>
+            <div style="margin-top:8px;">
+                <h4 style="margin:0 0 6px 0;">Specifications</h4>
+                <ul id="modalSpecs" style="margin:0 0 0 18px;color:var(--muted);"></ul>
             </div>
+        </div>
+        <div class="right">
+            <img id="modalImg" src="" alt="machine image">
+        </div>
+    </div>
+</div>
 
-            <div class="card" role="region" aria-labelledby="serviceTitle">
-                <h3 id="serviceTitle">Employee Service</h3>
-                <p>Quick access to employee records and services.</p>
-                <a class="btn-link" href="services/employee/getEmployeeDetails">Get Employee Details</a>
-            </div>
-        </aside>
+<script>
+    // set dynamic year
+    document.getElementById('year').textContent = new Date().getFullYear();
 
-    </main>
+    // theme toggle logic
+    const themeSwitch = document.getElementById('themeSwitch');
+    const htmlEl = document.documentElement;
+    // restore preference from localStorage
+    if(localStorage.getItem('harideep-theme') === 'dark'){
+        htmlEl.classList.add('dark');
+        themeSwitch.classList.add('on');
+        themeSwitch.setAttribute('aria-checked','true');
+    }
 
-    <footer>
-        <p>© <strong>Harideep Tailors</strong> — 1993 to <span id="year"></span> | Email: <a href="mailto:Tailors@gmail.com">Tailors@gmail.com</a></p>
-    </footer>
+    function toggleTheme(){
+        const isDark = htmlEl.classList.toggle('dark');
+        themeSwitch.classList.toggle('on', isDark);
+        themeSwitch.setAttribute('aria-checked', isDark ? 'true' : 'false');
+        localStorage.setItem('harideep-theme', isDark ? 'dark' : 'light');
+    }
 
-    <script>
-        // set dynamic year
-        document.getElementById('year').textContent = new Date().getFullYear();
+    themeSwitch.addEventListener('click', toggleTheme);
+    themeSwitch.addEventListener('keydown', (e)=>{ if(e.key==='Enter' || e.key===' ') { e.preventDefault(); toggleTheme(); } });
 
-        // improve keyboard accessibility: allow arrow navigation of tabs
-        document.addEventListener('keydown', function(e){
-            const focus = document.activeElement;
-            if(focus && focus.classList && focus.classList.contains('tab-btn')){
-                if(e.key === 'ArrowRight' || e.key === 'ArrowDown'){
-                    e.preventDefault();
-                    let next = focus.nextElementSibling || document.querySelector('.tab-btn');
-                    next.focus();
-                } else if(e.key === 'ArrowLeft' || e.key === 'ArrowUp'){
-                    e.preventDefault();
-                    let prev = focus.previousElementSibling || document.querySelectorAll('.tab-btn')[document.querySelectorAll('.tab-btn').length - 1];
-                    prev.focus();
-                }
-            }
-        });
-    </script>
+    // modal logic
+    const cards = document.querySelectorAll('.machine-card');
+    const modalBackdrop = document.getElementById('modalBackdrop');
+    const closeModal = document.getElementById('closeModal');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalDesc = document.getElementById('modalDesc');
+    const modalImg = document.getElementById('modalImg');
+    const modalPrice = document.getElementById('modalPrice');
+    const modalSpecs = document.getElementById('modalSpecs');
+    const bookNow = document.getElementById('bookNow');
+
+    function openModal(data){
+        modalTitle.textContent = data.name;
+        modalDesc.textContent = data.desc;
+        modalImg.src = data.img;
+        modalImg.alt = data.name;
+        modalPrice.textContent = data.price;
+        modalSpecs.innerHTML = '';
+        // add a couple of default specs derived from data-id
+        const specs = [
+            'Warranty: 1 year',
+            'Free setup & demo',
+            'Service center support'
+        ];
+        specs.forEach(s => { const li = document.createElement('li'); li.textContent = s; modalSpecs.appendChild(li); });
+
+        // set book link to a booking endpoint with query params (replace with real URL as needed)
+        bookNow.href = 'services/employee/bookService?machine=' + encodeURIComponent(data.id) + '&price=' + encodeURIComponent(data.price);
+
+        modalBackdrop.style.display = 'flex';
+        modalBackdrop.setAttribute('aria-hidden', 'false');
+        // trap focus
+        closeModal.focus();
+    }
+
+    function close(){
+        modalBackdrop.style.display = 'none';
+        modalBackdrop.setAttribute('aria-hidden','true');
+    }
+
+    cards.forEach(card => {
+        const data = {
+            id: card.dataset.id,
+            name: card.dataset.name,
+            price: card.dataset.price,
+            desc: card.dataset.desc,
+            img: card.dataset.img
+        };
+        card.addEventListener('click', ()=> openModal(data));
+        card.addEventListener('keydown', (e)=>{ if(e.key==='Enter' || e.key===' ') { e.preventDefault(); openModal(data); } });
+    });
+
+    closeModal.addEventListener('click', close);
+    modalBackdrop.addEventListener('click', (e)=>{ if(e.target === modalBackdrop) close(); });
+    document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') close(); });
+</script>
+
 </body>
 </html>
