@@ -98,13 +98,13 @@
 	    <repository>
 	      <id>nexus</id>
 	      <name>KK FUNDA Releases Nexus Repository</name>
-	      <url>http://13.232.2.194:8081/repository/harideep-release-repo/</url>
+	      <url>http://13.233.95.132:8081/repository/harideep-release-repo/</url>
 	    </repository>
 	    
 	    <snapshotRepository>
 	      <id>nexus</id>
 	      <name>KK FUNDA Snapshot Nexus Repository </name>
-	      <url>http://13.232.2.194:8081/repository/harideep-snapshot-repo/</url>
+	      <url>http://13.233.95.132:8081/repository/harideep-snapshot-repo/</url>
 	    </snapshotRepository>
 	    
 	</distributionManagement>
